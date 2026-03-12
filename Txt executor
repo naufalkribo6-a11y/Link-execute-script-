@@ -1,0 +1,140 @@
+--[[ 
+    Cylex-Coder: TXT Hub Edition
+    Visual: 100% Identical to Photo Logo
+    Feature: Separate Search Tab + Execute
+    User: tubles93 ✨
+--]]
+
+local L_ScreenGui = Instance.new("ScreenGui")
+L_ScreenGui.Name = "TXT_Hub_Tubles93"
+L_ScreenGui.Parent = game.CoreGui
+
+-- LOGO TXT (DRAGGABLE & CLICKABLE) 🕹️
+local L_LogoFrame = Instance.new("ImageButton")
+L_LogoFrame.Name = "LogoTXT"
+L_LogoFrame.Parent = L_ScreenGui
+L_LogoFrame.BackgroundColor3 = Color3.fromRGB(100, 0, 255) -- Ungu pixel background
+L_LogoFrame.Position = UDim2.new(0.05, 0, 0.05, 0)
+L_LogoFrame.Size = UDim2.new(0, 60, 0, 60)
+L_LogoFrame.Image = "rbxassetid://135111956044733" -- Ganti ID ini kalau lu upload fotonya ke roblox
+L_LogoFrame.Active = true
+L_LogoFrame.Draggable = true
+
+-- Visual Logo TXT manual (Kalau ID Image belum ada)
+local L_TriangleUp = Instance.new("Frame")
+L_TriangleUp.Parent = L_LogoFrame
+L_TriangleUp.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+L_TriangleUp.Size = UDim2.new(0.8, 0, 0.4, 0)
+L_TriangleUp.Position = UDim2.new(0.1, 0, 0.1, 0)
+Instance.new("SpecialMesh", L_TriangleUp).MeshType = Enum.MeshType.Wedge
+
+local L_TxtLabel = Instance.new("TextLabel")
+L_TxtLabel.Parent = L_LogoFrame
+L_TxtLabel.Text = "TXT"
+L_TxtLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+L_TxtLabel.Font = Enum.Font.SourceSansBold
+L_TxtLabel.TextSize = 20
+L_TxtLabel.Size = UDim2.new(1, 0, 1, 0)
+L_TxtLabel.ZIndex = 5
+L_TxtLabel.BackgroundTransparency = 1
+
+-- MAIN WINDOW (KRNL STYLE)
+local L_Main = Instance.new("Frame")
+L_Main.Parent = L_ScreenGui
+L_Main.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+L_Main.Size = UDim2.new(0, 500, 0, 300)
+L_Main.Position = UDim2.new(0.5, -250, 0.5, -150)
+L_Main.Visible = false
+L_Main.Draggable = true
+L_Main.Active = true
+
+-- SIDEBAR BUAT TAB (SEARCH VS EDITOR)
+local L_SideBar = Instance.new("Frame")
+L_SideBar.Parent = L_Main
+L_SideBar.Size = UDim2.new(0, 100, 1, 0)
+L_SideBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+
+local L_TabExec = Instance.new("TextButton")
+L_TabExec.Parent = L_SideBar
+L_TabExec.Text = "EDITOR"
+L_TabExec.Size = UDim2.new(1, 0, 0, 40)
+L_TabExec.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+L_TabExec.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+local L_TabSearch = Instance.new("TextButton")
+L_TabSearch.Parent = L_SideBar
+L_TabSearch.Text = "SEARCH"
+L_TabSearch.Position = UDim2.new(0, 0, 0, 45)
+L_TabSearch.Size = UDim2.new(1, 0, 0, 40)
+L_TabSearch.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+L_TabSearch.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+-- CONTAINER TAB
+local L_EditorFrame = Instance.new("Frame")
+L_EditorFrame.Parent = L_Main
+L_EditorFrame.Position = UDim2.new(0, 110, 0, 10)
+L_EditorFrame.Size = UDim2.new(0, 380, 0, 280)
+L_EditorFrame.BackgroundTransparency = 1
+
+local L_SearchFrame = Instance.new("Frame")
+L_SearchFrame.Parent = L_Main
+L_SearchFrame.Position = UDim2.new(0, 110, 0, 10)
+L_SearchFrame.Size = UDim2.new(0, 380, 0, 280)
+L_SearchFrame.BackgroundTransparency = 1
+L_SearchFrame.Visible = false
+
+-- EDITOR CONTENT
+local L_Box = Instance.new("TextBox")
+L_Box.Parent = L_EditorFrame
+L_Box.Size = UDim2.new(1, 0, 0.8, 0)
+L_Box.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+L_Box.TextColor3 = Color3.fromRGB(255, 255, 255)
+L_Box.Text = "-- Welcome tubles93"
+L_Box.MultiLine = true
+L_Box.TextXAlignment = Enum.TextXAlignment.Left
+L_Box.TextYAlignment = Enum.TextYAlignment.Top
+
+local L_ExecBtn = Instance.new("TextButton")
+L_ExecBtn.Parent = L_EditorFrame
+L_ExecBtn.Text = "EXECUTE"
+L_ExecBtn.Position = UDim2.new(0, 0, 0.85, 0)
+L_ExecBtn.Size = UDim2.new(1, 0, 0, 35)
+L_ExecBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
+L_ExecBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+-- SEARCH CONTENT
+local L_SearchInput = Instance.new("TextBox")
+L_SearchInput.Parent = L_SearchFrame
+L_SearchInput.PlaceholderText = "Search Script Name..."
+L_SearchInput.Size = UDim2.new(1, 0, 0, 35)
+L_SearchInput.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+L_SearchInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+local L_ResultLabel = Instance.new("TextLabel")
+L_ResultLabel.Parent = L_SearchFrame
+L_ResultLabel.Text = "T4rget To Everyone: Search Results will appear here"
+L_ResultLabel.Position = UDim2.new(0, 0, 0.2, 0)
+L_ResultLabel.Size = UDim2.new(1, 0, 0, 100)
+L_ResultLabel.BackgroundTransparency = 1
+L_ResultLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+
+-- LOGIC TOGGLE
+L_LogoFrame.MouseButton1Click:Connect(function()
+    L_Main.Visible = not L_Main.Visible
+end)
+
+L_TabExec.MouseButton1Click:Connect(function()
+    L_EditorFrame.Visible = true
+    L_SearchFrame.Visible = false
+end)
+
+L_TabSearch.MouseButton1Click:Connect(function()
+    L_EditorFrame.Visible = false
+    L_SearchFrame.Visible = true
+end)
+
+L_ExecBtn.MouseButton1Click:Connect(function()
+    loadstring(L_Box.Text)()
+end)
+
+print("Cylex-Coder: TXT Hub Final Loaded! 💀🔥")
