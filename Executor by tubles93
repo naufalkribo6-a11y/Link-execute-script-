@@ -1,0 +1,90 @@
+-- [[ SYLENT SYSTEM CONFIG ]] --
+-- CEO/Owner: @elzzellz (Ell)
+-- Style: Raw KRNL-Custom (No Library)
+-- Objective: Universal Executor GUI
+
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local SideBar = Instance.new("Frame")
+local TabContainer = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local Logo = Instance.new("ImageButton")
+local ExecutorTab = Instance.new("Frame")
+local ScriptBox = Instance.new("TextBox")
+local ExecBtn = Instance.new("TextButton")
+
+-- Parent ke CoreGui biar nggak gampang dihapus
+ScreenGui.Parent = game:GetService("CoreGui")
+ScreenGui.Name = "SylentInternal"
+
+-- Main Frame (KRNL Style)
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+MainFrame.BorderSizePixel = 0
+MainFrame.Position = UDim2.new(0.3, 0, 0.3, 0)
+MainFrame.Size = UDim2.new(0, 500, 0, 300)
+MainFrame.Active = true
+MainFrame.Draggable = true -- Biar bisa digerakin seluruh UI-nya
+
+-- Logo Sylent (Bisa Digerakin Sendiri juga)
+Logo.Name = "SylentLogo"
+Logo.Parent = MainFrame
+Logo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Logo.BackgroundTransparency = 1.000
+Logo.Position = UDim2.new(-0.05, 0, -0.1, 0)
+Logo.Size = UDim2.new(0, 60, 0, 60)
+Logo.Image = "rbxassetid://6031097225" -- ID Logo (Ganti sesuka lu)
+Logo.Draggable = true 
+
+-- Sidebar
+SideBar.Name = "SideBar"
+SideBar.Parent = MainFrame
+SideBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+SideBar.BorderSizePixel = 0
+SideBar.Size = UDim2.new(0, 100, 0, 300)
+
+-- Title
+Title.Parent = SideBar
+Title.Text = "SYLENT V1"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Size = UDim2.new(0, 100, 0, 50)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 14
+
+-- Tab Executor
+ExecutorTab.Name = "ExecutorTab"
+ExecutorTab.Parent = MainFrame
+ExecutorTab.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+ExecutorTab.Position = UDim2.new(0.22, 0, 0.15, 0)
+ExecutorTab.Size = UDim2.new(0, 370, 0, 240)
+
+ScriptBox.Parent = ExecutorTab
+ScriptBox.Size = UDim2.new(1, -10, 0.8, 0)
+ScriptBox.Position = UDim2.new(0, 5, 0, 5)
+ScriptBox.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+ScriptBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+ScriptBox.ClearTextOnFocus = false
+ScriptBox.MultiLine = true
+ScriptBox.Text = "-- Masukkan Script Lu Di Sini..."
+ScriptBox.TextXAlignment = Enum.TextXAlignment.Left
+ScriptBox.TextYAlignment = Enum.TextYAlignment.Top
+
+ExecBtn.Parent = ExecutorTab
+ExecBtn.Position = UDim2.new(0, 5, 0.85, 0)
+ExecBtn.Size = UDim2.new(0, 100, 0, 30)
+ExecBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+ExecBtn.Text = "EXECUTE"
+ExecBtn.TextColor3 = Color3.fromRGB(0, 255, 0)
+ExecBtn.Font = Enum.Font.GothamBold
+
+-- LOGIC: Execute Button
+ExecBtn.MouseButton1Click:Connect(function()
+    local code = ScriptBox.Text
+    local success, err = pcall(loadstring(code))
+    if not success then
+        warn("Sylent Error: " .. err)
+    end
+end)
+
+print("Sylent System On - Raw UI Loaded!")
