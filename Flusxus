@@ -1,0 +1,190 @@
+--[[ 
+    DELTA ULTIMATE HUB V5
+    User: tubles93 ✨
+    Features: Manual Editor, Clear, Auto Execute, Real Cloud Search
+--]]
+
+local L_ScreenGui = Instance.new("ScreenGui")
+L_ScreenGui.Name = "DeltaUltimate_Tubles93"
+L_ScreenGui.Parent = game.CoreGui
+
+-- LOGO K (DRAGGABLE & TOGGLE) 🕹️
+local L_Logo = Instance.new("TextButton")
+L_Logo.Parent = L_ScreenGui
+L_Logo.Size = UDim2.new(0, 50, 0, 50)
+L_Logo.Position = UDim2.new(0.05, 0, 0.15, 0)
+L_Logo.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+L_Logo.Text = "K" -- Lu bisa ganti gambar logo Delta di sini
+L_Logo.TextColor3 = Color3.fromRGB(255, 255, 255)
+L_Logo.Font = Enum.Font.SourceSansBold
+L_Logo.TextSize = 30
+L_Logo.Draggable = true
+L_Logo.Active = true
+Instance.new("UICorner", L_Logo).CornerRadius = UDim.new(1, 0)
+Instance.new("UIStroke", L_Logo).Thickness = 2
+
+-- MAIN FRAME (DESAIN DELTA V4)
+local L_Main = Instance.new("Frame")
+L_Main.Parent = L_ScreenGui
+L_Main.Size = UDim2.new(0, 520, 0, 320)
+L_Main.Position = UDim2.new(0.5, -260, 0.5, -160)
+L_Main.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+L_Main.Visible = false
+Instance.new("UICorner", L_Main).CornerRadius = UDim.new(0, 10)
+
+-- SIDEBAR
+local L_SideBar = Instance.new("Frame")
+L_SideBar.Parent = L_Main
+L_SideBar.Size = UDim2.new(0, 110, 1, 0)
+L_SideBar.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+Instance.new("UICorner", L_SideBar).CornerRadius = UDim.new(0, 10)
+
+local function CreateTabBtn(name, pos)
+    local btn = Instance.new("TextButton")
+    btn.Parent = L_SideBar
+    btn.Text = name
+    btn.Size = UDim2.new(0.85, 0, 0, 35)
+    btn.Position = UDim2.new(0.07, 0, 0, pos)
+    btn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn.Font = Enum.Font.SourceSansBold
+    btn.TextSize = 11
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 5)
+    return btn
+end
+
+local Tab1Btn = CreateTabBtn("EXECUTOR", 15)
+local Tab2Btn = CreateTabBtn("SEARCH", 55)
+local Tab3Btn = CreateTabBtn("AUTO-EXEC", 95)
+
+-- PAGES
+local function CreatePage()
+    local f = Instance.new("Frame", L_Main)
+    f.Position = UDim2.new(0, 120, 0, 10)
+    f.Size = UDim2.new(0, 390, 0, 300)
+    f.BackgroundTransparency = 1
+    f.Visible = false
+    return f
+end
+
+local ExecPage = CreatePage()
+local SearchPage = CreatePage()
+local AutoPage = CreatePage()
+ExecPage.Visible = true
+
+-- [TAB 1: EXECUTOR + CLEAR BTN]
+local Editor = Instance.new("TextBox", ExecPage)
+Editor.Size = UDim2.new(1, 0, 0, 230)
+Editor.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
+Editor.TextColor3 = Color3.fromRGB(255, 255, 255)
+Editor.Text = "-- Editor tubles93"
+Editor.MultiLine = true
+Editor.TextXAlignment = "Left"
+Editor.TextYAlignment = "Top"
+Editor.ClearTextOnFocus = false
+Instance.new("UICorner", Editor).CornerRadius = UDim.new(0, 5)
+
+local RunBtn = Instance.new("TextButton", ExecPage)
+RunBtn.Text = "EXECUTE"
+RunBtn.Position = UDim2.new(0, 0, 0, 240)
+RunBtn.Size = UDim2.new(0, 100, 0, 35)
+RunBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
+RunBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+Instance.new("UICorner", RunBtn).CornerRadius = UDim.new(0, 5)
+
+local ClearBtn = Instance.new("TextButton", ExecPage) -- INI TOMBOL CLEARNYA!
+ClearBtn.Text = "CLEAR"
+ClearBtn.Position = UDim2.new(0, 110, 0, 240)
+ClearBtn.Size = UDim2.new(0, 80, 0, 35)
+ClearBtn.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+ClearBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+Instance.new("UICorner", ClearBtn).CornerRadius = UDim.new(0, 5)
+
+-- [TAB 3: AUTO EXECUTE]
+local AutoLabel = Instance.new("TextLabel", AutoPage)
+AutoLabel.Text = "AUTO EXECUTE FOLDER"
+AutoLabel.Size = UDim2.new(1, 0, 0, 30)
+AutoLabel.TextColor3 = Color3.fromRGB(255, 255, 0)
+AutoLabel.BackgroundTransparency = 1
+AutoLabel.Font = "SourceSansBold"
+
+local AutoInfo = Instance.new("TextLabel", AutoPage)
+AutoInfo.Text = "Scripts in this list will run automatically when you join a game."
+AutoInfo.Position = UDim2.new(0, 0, 0, 40)
+AutoInfo.Size = UDim2.new(1, 0, 0, 40)
+AutoInfo.TextColor3 = Color3.fromRGB(150, 150, 150)
+AutoInfo.TextWrapped = true
+AutoInfo.BackgroundTransparency = 1
+AutoInfo.TextSize = 12
+
+-- [TAB 2: SEARCH DENGAN TOMBOL EXECUTE LANGSUNG]
+local S_Input = Instance.new("TextBox", SearchPage)
+S_Input.PlaceholderText = "Search for a script..."
+S_Input.Size = UDim2.new(1, 0, 0, 35)
+S_Input.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
+S_Input.TextColor3 = Color3.fromRGB(255, 255, 255)
+Instance.new("UICorner", S_Input).CornerRadius = UDim.new(0, 5)
+
+local S_Scroll = Instance.new("ScrollingFrame", SearchPage)
+S_Scroll.Position = UDim2.new(0, 0, 0, 45)
+S_Scroll.Size = UDim2.new(1, 0, 0, 250)
+S_Scroll.BackgroundTransparency = 1
+S_Scroll.CanvasSize = UDim2.new(0, 0, 15, 0)
+Instance.new("UIListLayout", S_Scroll).Padding = UDim.new(0, 8)
+
+-- SEARCH LOGIC
+S_Input.FocusLost:Connect(function(enter)
+    if enter then
+        for _, v in pairs(S_Scroll:GetChildren()) do if v:IsA("Frame") then v:Destroy() end end
+        local res = game:HttpGet("https://scriptblox.com/api/script/search?q="..S_Input.Text.."&mode=free")
+        local data = game:GetService("HttpService"):JSONDecode(res)
+        
+        for _, s in pairs(data.result.scripts) do
+            local f = Instance.new("Frame", S_Scroll)
+            f.Size = UDim2.new(0.96, 0, 0, 50)
+            f.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+            Instance.new("UICorner", f).CornerRadius = UDim.new(0, 6)
+            
+            local t = Instance.new("TextLabel", f)
+            t.Text = s.title
+            t.Size = UDim2.new(0.7, 0, 0.5, 0)
+            t.Position = UDim2.new(0, 10, 0, 5)
+            t.TextColor3 = Color3.fromRGB(255, 255, 255)
+            t.BackgroundTransparency = 1
+            t.TextXAlignment = "Left"
+            t.Font = "SourceSansBold"
+            
+            local m = Instance.new("TextLabel", f)
+            m.Text = "Map: " .. (s.game.name or "Universal")
+            m.Position = UDim2.new(0, 10, 0, 25)
+            m.Size = UDim2.new(0.7, 0, 0.4, 0)
+            m.TextColor3 = Color3.fromRGB(150, 150, 150)
+            m.BackgroundTransparency = 1
+            m.TextXAlignment = "Left"
+            m.TextSize = 10
+            
+            local ex = Instance.new("TextButton", f)
+            ex.Text = "EXECUTE"
+            ex.Size = UDim2.new(0, 80, 0, 30)
+            ex.Position = UDim2.new(1, -90, 0.5, -15)
+            ex.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+            ex.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Instance.new("UICorner", ex).CornerRadius = UDim.new(0, 4)
+            
+            ex.MouseButton1Click:Connect(function()
+                loadstring(s.script)()
+            end)
+        end
+    end
+end)
+
+-- BUTTON LOGICS
+ClearBtn.MouseButton1Click:Connect(function() Editor.Text = "" end)
+RunBtn.MouseButton1Click:Connect(function() loadstring(Editor.Text)() end)
+L_Logo.MouseButton1Click:Connect(function() L_Main.Visible = not L_Main.Visible end)
+
+Tab1Btn.MouseButton1Click:Connect(function() ExecPage.Visible = true SearchPage.Visible = false AutoPage.Visible = false end)
+Tab2Btn.MouseButton1Click:Connect(function() ExecPage.Visible = false SearchPage.Visible = true AutoPage.Visible = false end)
+Tab3Btn.MouseButton1Click:Connect(function() ExecPage.Visible = false SearchPage.Visible = false AutoPage.Visible = true end)
+
+print("Delta Ultimate V5 Loaded! 🛡️ Clear & Auto-Exec ready, tubles93!")
