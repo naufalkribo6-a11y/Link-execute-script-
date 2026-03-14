@@ -1,0 +1,163 @@
+--[[ 
+    KRNL INTERNAL HUB V2 (REAL SEARCH)
+    Coded for: tubles93 ✨
+    Features: Clear Button, Real ScriptBlox Search API
+--]]
+
+local L_ScreenGui = Instance.new("ScreenGui")
+L_ScreenGui.Name = "Krnl_V2_Tubles93"
+L_ScreenGui.Parent = game.CoreGui
+
+-- LOGO K (DRAGGABLE)
+local L_Logo = Instance.new("TextButton")
+L_Logo.Parent = L_ScreenGui
+L_Logo.Size = UDim2.new(0, 50, 0, 50)
+L_Logo.Position = UDim2.new(0.05, 0, 0.15, 0)
+L_Logo.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+L_Logo.Text = "K"
+L_Logo.TextColor3 = Color3.fromRGB(255, 255, 255)
+L_Logo.Font = Enum.Font.SourceSansBold
+L_Logo.TextSize = 30
+L_Logo.Draggable = true
+L_Logo.Active = true
+Instance.new("UICorner", L_Logo).CornerRadius = UDim.new(1, 0)
+Instance.new("UIStroke", L_Logo).Thickness = 2
+
+-- MAIN FRAME
+local L_Main = Instance.new("Frame")
+L_Main.Parent = L_ScreenGui
+L_Main.Size = UDim2.new(0, 500, 0, 320)
+L_Main.Position = UDim2.new(0.5, -250, 0.5, -160)
+L_Main.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+L_Main.Visible = false
+Instance.new("UICorner", L_Main).CornerRadius = UDim.new(0, 10)
+
+-- SIDEBAR
+local L_SideBar = Instance.new("Frame")
+L_SideBar.Parent = L_Main
+L_SideBar.Size = UDim2.new(0, 110, 1, 0)
+L_SideBar.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+Instance.new("UICorner", L_SideBar).CornerRadius = UDim.new(0, 10)
+
+local function CreateTabBtn(name, pos)
+    local btn = Instance.new("TextButton")
+    btn.Parent = L_SideBar
+    btn.Text = name
+    btn.Size = UDim2.new(0.85, 0, 0, 38)
+    btn.Position = UDim2.new(0.07, 0, 0, pos)
+    btn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn.Font = Enum.Font.SourceSansBold
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6)
+    return btn
+end
+
+local Tab1Btn = CreateTabBtn("EXECUTOR", 15)
+local Tab2Btn = CreateTabBtn("SEARCH", 60)
+
+-- PAGES
+local function CreatePage()
+    local f = Instance.new("Frame")
+    f.Parent = L_Main
+    f.Position = UDim2.new(0, 120, 0, 10)
+    f.Size = UDim2.new(0, 370, 0, 300)
+    f.BackgroundTransparency = 1
+    f.Visible = false
+    return f
+end
+
+local ExecPage = CreatePage()
+local SearchPage = CreatePage()
+ExecPage.Visible = true
+
+-- [TAB 1: EXECUTOR + CLEAR BTN]
+local Editor = Instance.new("TextBox")
+Editor.Parent = ExecPage
+Editor.Size = UDim2.new(1, 0, 0, 230)
+Editor.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+Editor.TextColor3 = Color3.fromRGB(255, 255, 255)
+Editor.Text = "-- KRNL tubles93\nprint('Ready')"
+Editor.MultiLine = true
+Editor.TextXAlignment = Enum.TextXAlignment.Left
+Editor.TextYAlignment = Enum.TextYAlignment.Top
+Editor.ClearTextOnFocus = false
+Instance.new("UICorner", Editor).CornerRadius = UDim.new(0, 5)
+
+local RunBtn = Instance.new("TextButton")
+RunBtn.Parent = ExecPage
+RunBtn.Text = "EXECUTE"
+RunBtn.Position = UDim2.new(0, 0, 0, 240)
+RunBtn.Size = UDim2.new(0, 100, 0, 35)
+RunBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
+RunBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+Instance.new("UICorner", RunBtn).CornerRadius = UDim.new(0, 5)
+
+local ClearBtn = Instance.new("TextButton") -- FITUR BARU: CLEAR
+ClearBtn.Parent = ExecPage
+ClearBtn.Text = "CLEAR"
+ClearBtn.Position = UDim2.new(0, 110, 0, 240)
+ClearBtn.Size = UDim2.new(0, 100, 0, 35)
+ClearBtn.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+ClearBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+Instance.new("UICorner", ClearBtn).CornerRadius = UDim.new(0, 5)
+
+-- [TAB 2: REAL SEARCH]
+local S_Input = Instance.new("TextBox")
+S_Input.Parent = SearchPage
+S_Input.PlaceholderText = "Type script name and press Enter..."
+S_Input.Size = UDim2.new(1, 0, 0, 35)
+S_Input.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+S_Input.TextColor3 = Color3.fromRGB(255, 255, 255)
+Instance.new("UICorner", S_Input).CornerRadius = UDim.new(0, 5)
+
+local S_Scroll = Instance.new("ScrollingFrame")
+S_Scroll.Parent = SearchPage
+S_Scroll.Position = UDim2.new(0, 0, 0, 45)
+S_Scroll.Size = UDim2.new(1, 0, 0, 245)
+S_Scroll.BackgroundTransparency = 1
+S_Scroll.CanvasSize = UDim2.new(0, 0, 5, 0)
+
+-- LOGIC SEARCH (DARI SCRIPTBLOX) 🕵️‍♂️
+S_Input.FocusLost:Connect(function(enter)
+    if enter then
+        for _, v in pairs(S_Scroll:GetChildren()) do v:Destroy() end -- Bersihin list lama
+        local query = S_Input.Text
+        local url = "https://scriptblox.com/api/script/search?q=" .. query .. "&mode=free"
+        
+        local success, res = pcall(function()
+            return game:HttpGet(url)
+        end)
+        
+        if success then
+            local data = game:GetService("HttpService"):JSONDecode(res)
+            local yPos = 0
+            for i, scriptData in pairs(data.result.scripts) do
+                local sBtn = Instance.new("TextButton")
+                sBtn.Parent = S_Scroll
+                sBtn.Text = scriptData.title
+                sBtn.Size = UDim2.new(0.95, 0, 0, 30)
+                sBtn.Position = UDim2.new(0, 0, 0, yPos)
+                sBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+                sBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+                yPos = yPos + 35
+                
+                sBtn.MouseButton1Click:Connect(function()
+                    Editor.Text = scriptData.script -- Copy script ke editor
+                    ExecPage.Visible = true
+                    SearchPage.Visible = false
+                    print("Script Loaded to Editor!")
+                end)
+            end
+        end
+    end
+end)
+
+-- [GENERAL LOGIC]
+ClearBtn.MouseButton1Click:Connect(function() Editor.Text = "" end) -- Clear Logic
+
+Tab1Btn.MouseButton1Click:Connect(function() ExecPage.Visible = true SearchPage.Visible = false end)
+Tab2Btn.MouseButton1Click:Connect(function() ExecPage.Visible = false SearchPage.Visible = true end)
+L_Logo.MouseButton1Click:Connect(function() L_Main.Visible = not L_Main.Visible end)
+RunBtn.MouseButton1Click:Connect(function() loadstring(Editor.Text)() end)
+
+print("KRNL V2 Loaded! Search & Clear are now ACTIVE! 💀🔥")
